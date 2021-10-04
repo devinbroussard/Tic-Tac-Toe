@@ -26,9 +26,9 @@ namespace Tic_Tac_Toe
                 }
             }
 
-            AddSumOfRow(array2DInit);
+            AddRows(array2DInit);
 
-            void AddSumOfRow(int[,] array)
+            void AddRows(int[,] array)
             {
                 for (int i = 0; i < array.GetLength(0); i++)
                 {
