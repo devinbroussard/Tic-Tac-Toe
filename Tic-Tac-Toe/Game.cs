@@ -10,7 +10,7 @@ namespace Tic_Tac_Toe
         private static bool _endApplication = false;
         private Board _gameBoard;
         private static int _currentSceneIndex;
-        private int _sceneCount = 2;
+        private static int _sceneCount = 2;
 
         /// <summary>
         /// Begins the game
@@ -64,7 +64,7 @@ namespace Tic_Tac_Toe
 
         public static bool SetCurrentScene(int sceneIndex)
         {
-            if (sceneIndex >= 0 && sceneIndex <= 1)
+            if (sceneIndex >= 0 && _sceneCount <= 1)
             {
                 _currentSceneIndex = sceneIndex;
                 return true;
