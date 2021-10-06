@@ -74,7 +74,7 @@ namespace Tic_Tac_Toe
                 }
                 else
                 {
-                    Console.WriteLine("Invalid input!");
+                    Console.WriteLine("\nInvalid input!");
                     Console.ReadKey(true);
                 }
             }
@@ -134,10 +134,7 @@ namespace Tic_Tac_Toe
                     return true;
             }
 
-            if (_board[0,0] == _board[1, 1] && _board[1, 1] == _board[2, 2])
-                return true;
-
-            if (_board[0, 2] == _board[1, 1] && _board[1, 1] == _board[2, 0])
+            if ((_board[0,0] == _board[1, 1] && _board[1, 1] == _board[2, 2]) || (_board[0, 2] == _board[1, 1] && _board[1, 1] == _board[2, 0]))
                 return true;
             
             return false;

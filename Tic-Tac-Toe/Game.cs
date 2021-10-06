@@ -10,7 +10,7 @@ namespace Tic_Tac_Toe
         private static bool _endApplication = false;
         private Board _gameBoard;
         private static int _currentSceneIndex;
-        private int _sceneCount;
+        private int _sceneCount = 2;
 
         /// <summary>
         /// Begins the game
