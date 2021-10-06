@@ -7,7 +7,7 @@ namespace Tic_Tac_Toe
     class Game
     {
         //Defining/initializing variables;
-        private static bool _gameOver = false;
+        public static bool GameOver = false;
         private Board _gameBoard;
 
         /// <summary>
@@ -16,7 +16,7 @@ namespace Tic_Tac_Toe
         public void Run()
         {
             Start();
-            while (!_gameOver)
+            while (!GameOver)
             {
                 Draw();
                 Update();

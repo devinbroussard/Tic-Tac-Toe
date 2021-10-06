@@ -28,34 +28,55 @@ namespace Tic_Tac_Toe
         public void Update()
         {
             int input;
+            bool winner;
 
-            if (CheckWinner(_player1Token))
+            winner = CheckWinner(_player1Token) || CheckWinner(_player2Token);
+            
+            if (winner)
             {
-                Console.WriteLine($"\n{_player1Token} won! Would you like to play again?\n");
+                if (_currentToken == _player2Token)
+                    _currentToken = _player1Token;
+                else
+                    _currentToken = _player2Token;
+
+                Console.WriteLine($"\n{_currentToken} won! Would you like to play again?\n");
                 Console.WriteLine("1. Yes");
                 Console.WriteLine("2. No");
                 Console.Write("> ");
 
                 input = Game.GetInput();
-            }
 
-            Console.Write("> ");
-            input = Game.GetInput() - 1;
-
-            if (input >= 0 && input <= 8) {
-                int x = input / _board.GetLength(0);
-                int y = input % _board.GetLength(0);
-
-                SetToken(_currentToken, x, y);
-
-                if (_currentToken == _player1Token)
-                    _currentToken = _player2Token;
-                else _currentToken = _player1Token;
+                if (input == 1)
+                    ClearBoard();
+                else if (input == 2)
+                    Game.GameOver = true;
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    Console.ReadKey(true);
+                }
             }
             else
             {
-                Console.WriteLine("Invalid input!");
-                Console.ReadKey(true);
+                Console.Write("> ");
+                input = Game.GetInput() - 1;
+
+                if (input >= 0 && input <= 8)
+                {
+                    int x = input / _board.GetLength(0);
+                    int y = input % _board.GetLength(0);
+
+                    SetToken(_currentToken, x, y);
+
+                    if (_currentToken == _player1Token)
+                        _currentToken = _player2Token;
+                    else _currentToken = _player1Token;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    Console.ReadKey(true);
+                }
             }
         }
 
@@ -74,7 +95,7 @@ namespace Tic_Tac_Toe
         }
         public void End() 
         {
-            Console.WriteLine("Goodbye, player!");
+            Console.WriteLine("\nGoodbye, player!");
             Console.ReadKey(true);
         }
 
@@ -110,7 +131,7 @@ namespace Tic_Tac_Toe
                 token3 = _board[2, j];
 
                 if (token1 == token2 && token2 == token3)
-                        return true;
+                    return true;
             }
 
             //Checks for matching tokens sideways for each row
@@ -124,6 +145,19 @@ namespace Tic_Tac_Toe
                     return true;
             }
 
+            token1 = _board[0, 0];
+            token2 = _board[1, 1];
+            token3 = _board[2, 2];
+
+            if (token1 == token2 && token2 == token3)
+                return true;
+
+            token1 = _board[0, 2];
+            token2 = _board[1, 1];
+            token3 = _board[2, 0];
+
+            if (token1 == token2 && token2 == token3) ;
+            
             return false;
         }
 
