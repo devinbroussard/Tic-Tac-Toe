@@ -7,8 +7,10 @@ namespace Tic_Tac_Toe
     class Game
     {
         //Defining/initializing variables;
-        public static bool GameOver = false;
+        private static bool _endApplication = false;
         private Board _gameBoard;
+        private static int _currentSceneIndex;
+        private int _sceneCount;
 
         /// <summary>
         /// Begins the game
@@ -16,7 +18,7 @@ namespace Tic_Tac_Toe
         public void Run()
         {
             Start();
-            while (!GameOver)
+            while (!_endApplication)
             {
                 Draw();
                 Update();
@@ -38,7 +40,16 @@ namespace Tic_Tac_Toe
         /// </summary>
         private void Update()
         {
-            _gameBoard.Update();
+            switch (_currentSceneIndex)
+            {
+                case 0:
+                    _gameBoard.Update();
+                    break;
+                case 1:
+                    RestartGame();
+                    break;
+            }
+
         }
 
         /// <summary>
@@ -47,7 +58,18 @@ namespace Tic_Tac_Toe
         private void Draw() 
         {
             Console.Clear();
-            _gameBoard.Draw();
+            if (_currentSceneIndex == 0)
+                _gameBoard.Draw();
+        }
+
+        public static bool SetCurrentScene(int sceneIndex)
+        {
+            if (sceneIndex >= 0 && sceneIndex <= 1)
+            {
+                _currentSceneIndex = sceneIndex;
+                return true;
+            }
+            return false;
         }
 
         //Called when the game ends
@@ -66,6 +88,32 @@ namespace Tic_Tac_Toe
             return choice;
         }
 
+        public static void EndApplication()
+        {
+            _endApplication = true;
+        }
 
+        private void RestartGame()
+        {
+            Console.WriteLine("Would you like to play again?\n");
+            Console.WriteLine("1. Yes");
+            Console.WriteLine("2. No");
+            Console.Write("> ");
+
+            int input = Game.GetInput();
+
+            if (input == 1)
+            {
+                _currentSceneIndex = 0;
+                _gameBoard.ClearBoard();
+            }
+            else if (input == 2)
+                EndApplication();
+            else
+            {
+                Console.WriteLine("Invalid input!");
+                Console.ReadKey(true);
+            }
+        }
     }
 }

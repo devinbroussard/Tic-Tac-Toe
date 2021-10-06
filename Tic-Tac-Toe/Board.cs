@@ -30,48 +30,23 @@ namespace Tic_Tac_Toe
         {
             int input;
             
-            if (CheckWinner(_player1Token) || CheckWinner(_player2Token))
+            if (CheckWinner())
             {
                 if (_currentToken == _player2Token)
                     _currentToken = _player1Token;
                 else
                     _currentToken = _player2Token;
 
-                Console.WriteLine($"\n{_currentToken} won! Would you like to play again?\n");
-                Console.WriteLine("1. Yes");
-                Console.WriteLine("2. No");
-                Console.Write("> ");
-
-                input = Game.GetInput();
-
-                if (input == 1)
-                    ClearBoard();
-                else if (input == 2)
-                    Game.GameOver = true;
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    Console.ReadKey(true);
-                }
+                Console.Write($"\nPlayer {_currentToken} won!");
+                Console.ReadKey(true);
+                Game.SetCurrentScene(1);
             }
             else if (_currentTurnNumber == 9)
             {
-                Console.WriteLine("\nThe game has been tied! Would you like to play again?\n");
-                Console.WriteLine("1. Yes");
-                Console.WriteLine("2. No");
-                Console.Write("> ");
+                Console.Write("\nThe game has been tied!");
+                Console.ReadKey(true);
+                Game.SetCurrentScene(1);
 
-                input = Game.GetInput();
-
-                if (input == 1)
-                    ClearBoard();
-                else if (input == 2)
-                    Game.GameOver = true;
-                else
-                {
-                    Console.WriteLine("Invalid input!");
-                    Console.ReadKey(true);
-                }
             }
             else
             {
@@ -120,8 +95,6 @@ namespace Tic_Tac_Toe
         }
         public void End() 
         {
-            Console.WriteLine("\nGoodbye, player!");
-            Console.ReadKey(true);
         }
 
         /// <summary>
@@ -144,9 +117,8 @@ namespace Tic_Tac_Toe
         /// <summary>
         /// Checks to see if the token appears three times consecutively vertically, horizontally, or diagonally.
         /// </summary>
-        /// <param name="token"></param>
         /// <returns></returns>
-        public bool CheckWinner(char token)
+        public bool CheckWinner()
         {
             //Checks for matching tokens top down for each column
             for (int j = 0; j < _board.GetLength(1); j++)
