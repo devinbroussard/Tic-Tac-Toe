@@ -10,6 +10,7 @@ namespace Tic_Tac_Toe
         private char _player2Token;
         private char _currentToken;
         private char[,] _board;
+        private int _currentTurnNumber;
 
         public void Start()
         {
@@ -29,8 +30,10 @@ namespace Tic_Tac_Toe
         {
             int input;
             bool winner;
+            bool tie;
 
             winner = CheckWinner(_player1Token) || CheckWinner(_player2Token);
+            tie = _currentTurnNumber == 9;
             
             if (winner)
             {
@@ -40,6 +43,25 @@ namespace Tic_Tac_Toe
                     _currentToken = _player2Token;
 
                 Console.WriteLine($"\n{_currentToken} won! Would you like to play again?\n");
+                Console.WriteLine("1. Yes");
+                Console.WriteLine("2. No");
+                Console.Write("> ");
+
+                input = Game.GetInput();
+
+                if (input == 1)
+                    ClearBoard();
+                else if (input == 2)
+                    Game.GameOver = true;
+                else
+                {
+                    Console.WriteLine("Invalid input!");
+                    Console.ReadKey(true);
+                }
+            }
+            else if (tie)
+            {
+                Console.WriteLine("\nThe game has been tied! Would you like to play again?\n");
                 Console.WriteLine("1. Yes");
                 Console.WriteLine("2. No");
                 Console.Write("> ");
@@ -66,11 +88,19 @@ namespace Tic_Tac_Toe
                     int x = input / _board.GetLength(0);
                     int y = input % _board.GetLength(0);
 
-                    SetToken(_currentToken, x, y);
+                    if (SetToken(_currentToken, x, y))
+                    {
+                        _currentTurnNumber++;
 
-                    if (_currentToken == _player1Token)
-                        _currentToken = _player2Token;
-                    else _currentToken = _player1Token;
+                        if (_currentToken == _player1Token)
+                            _currentToken = _player2Token;
+                        else _currentToken = _player1Token;
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nThat slot is taken already!");
+                        Console.ReadKey(true);
+                    }
                 }
                 else
                 {
@@ -108,7 +138,11 @@ namespace Tic_Tac_Toe
         /// <returns>Returns false if the indices are out of range.</returns>
         public bool SetToken(char token, int posX, int posY) 
         {
-            _board[posX, posY] = token;
+            if (!(_board[posX, posY] == _player1Token || _board[posX, posY] == _player2Token))
+            {
+                _board[posX, posY] = token;
+                return true;
+            }
             return false;
         }
 
@@ -166,6 +200,7 @@ namespace Tic_Tac_Toe
         /// </summary>
         public void ClearBoard() 
         {
+            _currentTurnNumber = 0;
             _board = new char[3, 3] { { '1', '2', '3' }, { '4', '5', '6' }, { '7', '8', '9' } };
         }
     }
