@@ -29,13 +29,8 @@ namespace Tic_Tac_Toe
         public void Update()
         {
             int input;
-            bool winner;
-            bool tie;
-
-            winner = CheckWinner(_player1Token) || CheckWinner(_player2Token);
-            tie = _currentTurnNumber == 9;
             
-            if (winner)
+            if (CheckWinner(_player1Token) || CheckWinner(_player2Token))
             {
                 if (_currentToken == _player2Token)
                     _currentToken = _player1Token;
@@ -59,7 +54,7 @@ namespace Tic_Tac_Toe
                     Console.ReadKey(true);
                 }
             }
-            else if (tie)
+            else if (_currentTurnNumber == 9)
             {
                 Console.WriteLine("\nThe game has been tied! Would you like to play again?\n");
                 Console.WriteLine("1. Yes");
@@ -153,44 +148,25 @@ namespace Tic_Tac_Toe
         /// <returns></returns>
         public bool CheckWinner(char token)
         {
-            char token1;
-            char token2;
-            char token3;
-
             //Checks for matching tokens top down for each column
             for (int j = 0; j < _board.GetLength(1); j++)
             {
-                token1 = _board[0, j];
-                token2 = _board[1, j];
-                token3 = _board[2, j];
-
-                if (token1 == token2 && token2 == token3)
+                if (_board[0,j] == _board[1, j] && _board[1, j] == _board[2, j])
                     return true;
             }
 
             //Checks for matching tokens sideways for each row
             for (int i = 0; i < _board.GetLength(0); i++)
             {
-                token1 = _board[i, 0];
-                token2 = _board[i, 1];
-                token3 = _board[i, 2];
-
-                if (token1 == token2 && token2 == token3)
+                if (_board[i, 0] == _board[i, 1] && _board[i, 1] == _board[i, 2])
                     return true;
             }
 
-            token1 = _board[0, 0];
-            token2 = _board[1, 1];
-            token3 = _board[2, 2];
-
-            if (token1 == token2 && token2 == token3)
+            if (_board[0,0] == _board[1, 1] && _board[1, 1] == _board[2, 2])
                 return true;
 
-            token1 = _board[0, 2];
-            token2 = _board[1, 1];
-            token3 = _board[2, 0];
-
-            if (token1 == token2 && token2 == token3) ;
+            if (_board[0, 2] == _board[1, 1] && _board[1, 1] == _board[2, 0])
+                return true;
             
             return false;
         }
